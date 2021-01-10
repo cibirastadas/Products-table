@@ -1,0 +1,43 @@
+
+
+<div class="m-5">
+  <h1 class="display-3 text-center">Products Table</h1>
+      <div class="input-group mb-3 ">
+        <a routerLink="/add" class="btn btn-primary mr-4"><i class="fas fa-plus"></i> Create</a>
+        <div class="input-group-prepend ">
+          <span class="input-group-text"><i class="fas fa-search"></i></span>
+        </div>
+        <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="search" >
+      </div>
+
+      <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th  *ngFor="let column of headers" class="thead-dark" (click)="sort('id')">
+          {{ column }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products |
+      filter:search |
+      paginate: { id: 'pagination',
+      itemsPerPage: 9,
+      currentPage: page,
+      totalItems: totalRecords}">
+          <td >{{product.id}}</td>
+          <td>{{product.name}}</td>
+          <td>{{onLoopArray(product.categories)}}</td>
+          <td>{{product.price | currency:product.currency:true}}</td>
+          <td>{{dataFormat(product.creationDate)}}</td>
+          <td style="width:200px">
+            <a [routerLink]="['/edit', product.id]" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+            <button (click)="onDelete(product.id)" class="btn btn-danger ml-2"><i class="fas fa-trash"></i> Delete</button>
+          </td>
+      </tr>
+    </tbody>
+  </table> 
+  <div>
+    <pagination-controls id="pagination"  directionLinks="true"(pageChange)="page = $event"></pagination-controls>
+  </div>
+</div>
