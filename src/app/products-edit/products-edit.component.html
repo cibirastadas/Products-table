@@ -1,22 +1,33 @@
-<div class="container-md">
-    <div class="shadow p-3 my-5 bg-white w-50 mx-auto rounded ">
-        <h1>{{heading}}</h1>
-        <form [formGroup]="productsForm" (ngSubmit)="onSubmit()" class="w-auto">
-            <div class="form-group">
-                <label for="productName"> Product name</label>
-                <input id="productName" type="text" formControlName="name" [ngModel]='product?.name' class="form-control" required>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col col-xl-6  col-lg-7 col-md-8 col-sm-9 mx-auto ">
+            <div class="shadow p-3 my-5 bg-white rounded ">
+                <h1>{{heading}}</h1>
+                <form [formGroup]="productsForm" (ngSubmit)="onSubmit()" class="w-auto">
+                    <div class="form-group">
+                        <label for="productName"> Product name</label>
+                        <input id="productName" type="text" formControlName="name" [ngModel]='products?.name' class="form-control" required>
+                    </div>
+                    <div class="form-group" formArrayName="categories">
+                        <label for="categories">Categories</label>
+                        <div *ngFor="let arr of categories.controls; let i = index;"  class="d-flex justify-content-between">
+                            <div class="w-100">
+                                <input id="categories" type="text" [formControlName]="i" [ngModel]='products?.categories[i]' class="form-control mt-3" required>
+                            </div>
+                            <div class="d-flex align-items-end">
+                                <button (click)="addCategories(); $event.preventDefault()" class="btn btn-success mx-2 rounded-0"><i class="fas fa-plus-square"></i></button>
+                                <button (click)="removeCategories(i)" class="btn btn-danger rounded-0" ><i class="fa fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="price">Price</label>
+                        <input id="price" type="number" formControlName="price" [ngModel]='products?.price' class="form-control" required>
+                    </div>
+                        <button type="submit"  class="btn btn-primary btn-lg w-100">Save</button>
+                </form>
             </div>
-            <div class="form-group">
-                <div *ngFor="let categories of categories.controls; let i=index"  formArrayName="categories">
-                    <label for="categories">Categories</label>
-                    <input  id="categories" type="text" [formControlName]="i" [ngModel]='product?.categories' class="form-control" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="price">Price</label>
-                <input id="price" type="number" formControlName="price" [ngModel]='product?.price' class="form-control" required>
-            </div>
-                <button type="submit" class="btn btn-primary btn-lg w-25">Save</button>
-        </form>
+        </div>
     </div>
+    
 </div>

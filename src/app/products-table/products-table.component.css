@@ -1,3 +1,45 @@
 table th{
     cursor: pointer;
+    width: 100px;
+}
+@media (max-width: 1200px) {  
+    .custom-table th, .custom-table td, button, .custom-table .btn{
+        font-size: 0.8rem;
+    }
+}
+@media (max-width: 1020px) {  
+    .custom-table th, .custom-table td, button, .custom-table .btn{
+        font-size: 0.7rem;
+        padding: 10;
+    }
+
+}
+@media (max-width: 992px) {  
+    h1{
+        font-size: 3rem;
+    }
+    .custom-table th{
+        text-align: center;
+        vertical-align: middle;
+        padding: 0.5rem;
+    }
+    
+    .custom-table .btn{
+        padding: 0.5rem;
+    }
+
+    .custom-table .buttons .btn-danger{
+        margin-left: 0.5rem;
+    }
+}
+@media (max-width: 890px) {  
+    .custom-table .buttons{
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem;
+    }
+    .custom-table .buttons .btn-danger{
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
 }

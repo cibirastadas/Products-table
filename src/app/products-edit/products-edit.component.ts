@@ -15,57 +15,78 @@ export class ProductsEditComponent implements OnInit {
   heading: string;
   mode: Boolean;
   id: Number;
-  product;
+  products;
   constructor(private router: Router, private activeRoute: ActivatedRoute,private fb: FormBuilder, private productService: ProductsService) { 
   }
 
   ngOnInit(): void {
     this.productsForm = this.fb.group({
       id : 0,
-      name : "",
-      creationDate: "",
-      categories : this.fb.array([""]),
+      name : [""],
+      creationDate: [""],
+      categories : this.fb.array([this.fb.control("")]),
       price : [0],
       currency : "EUR"
     })
     this.mode= this.router.url === "/add";
     this.heading = this.mode ? "Add Products" : "Edit Products"
-    this.id= +this.activeRoute.snapshot.paramMap.get('id');
-
+    this.id=+ this.activeRoute.snapshot.paramMap.get('id');
     if(!this.mode){
-
-      this.product = this.productService.getOneProduct(this.id)
+        this.products = this.productService.getOneProduct(this.id)
+        this.patchValues();
     }
-    this.productsForm.valueChanges.subscribe(console.log)
+   /*  this.productsForm.valueChanges.subscribe(console.log) */
   }
 
   onSubmit(): void{
 
     if(this.mode){
- /*      const newId = {
-        id : this.myId,
-        creationDate : new Date,
-      }
-      const newProduct = {...this.productsForm.value,...newId};  */
       let newProduct: Product = this.productsForm.value
       newProduct.creationDate = new Date().toString();
-      newProduct.id = this.myId;
+      newProduct.id = this.getRndInteger();
       this.productService.onAdd(newProduct)
     }else{
       let newProduct: Product = this.productsForm.value
-      newProduct.id = this.product.id
-      newProduct.creationDate = this.product.creationDate
+      newProduct.id = this.products.id
+      newProduct.creationDate = this.products.creationDate
       this.productService.onUpdate(newProduct)
     }
     this.router.navigateByUrl("")
   }
   
+  addCategories(){
+    this.categories.push(this.fb.control(""))
+  }
+
+  removeCategories(index){
+    this.categories.removeAt(index)
+  }
+  
   get categories() {
     return this.productsForm.get('categories') as FormArray;
   }
-
+  
   get name() {
     return this.productsForm.get('name');
+  }
+
+  get price(){
+    return this.productsForm.get('price');
+  }
+
+  patchValues() {
+    this.products.categories.forEach((a) => { 
+       this.categories.push(this.patch(a.categories)) 
+    });
+    this.categories.removeAt(this.categories.length -1)
+  }
+
+  patch(categorie) {
+    return this.fb.control(categorie);
+  }
+
+  getRndInteger() {
+  return Math.floor(Math.random() * (99999999 - 10000000  + 1) ) + 10000000;
   }
 
 }

@@ -9,40 +9,95 @@ import { Product } from '../models/product.module';
   styleUrls: ['./products-table.component.css']
 })
 export class ProductsTableComponent implements OnInit {
-  headers;
+  headers: string[];
   products: Product[];
+  oldProducts: Product[];
   search: string;
   data: Array<any>;
   totalRecords: number;
-  page:Number=1;
+  page: Number = 1;
+  headId: boolean = false;
+  headName: boolean = false;
+  headPrice: boolean = false;
+  headCategories: boolean = false;
+  headDate: boolean = false;
+  
+  
   constructor(@Inject(LOCALE_ID) private locale: string, private service: ProductsService) { 
     this.headers = service.getHeaders();
-    this.products = service.getData();
+    this.sorByDefault()
     this.totalRecords = this.products.length
-    console.log(this.products)
   }
   ngOnInit(): void {
     
   }
-
   onDelete(id): void{
     this.service.onDelete(id)
+    this.onReload();
   }
+
   dataFormat (date){
     return formatDate(date,'yyyy-MM-dd HH:mm:ss', this.locale);
   }
+
+  onReload() {
+   this.products = this.service.getData()
+   this.totalRecords = this.products.length
+  }
+  
+  sorByDefault(){
+    this.products = this.service.getData().sort((a, b) => a.name.localeCompare(b.name))
+    this.oldProducts = [...this.products]
+  }
+
   onLoopArray(array){
     let separate = array.join(", ")
-/*     let newArray: string="";
-    array.forEach(arr => {
-      newArray +=" "+ arr
-    }); */
     return separate
   }
-  key: string = "id";
-  reverse: boolean = false;
-  sort(id){
-    console.log(id)
-    this.reverse = !this.reverse
+
+  sort(key){
+    let fakeArray = [...this.products]
+    let values;
+    if(key==='ID'){
+      key="id"
+      this.headId ? 
+      values = fakeArray.sort((a, b) => a.id - b.id) : 
+      values = fakeArray.sort((a, b) => b.id - a.id)
+      this.headId = !this.headId
+    }
+    if(key==='Pruduct name'){
+      key="name"
+      this.headName ? 
+      values = fakeArray.sort((a, b) => a.name.localeCompare(b.name)) :
+      values = fakeArray.sort((a, b) => b.name.localeCompare(a.name))
+      this.headName = !this.headName
+    }
+    if(key==='Price'){
+      key="price"
+      this.headPrice ? 
+      values = fakeArray.sort((a, b) => a.price - b.price) : 
+      values = fakeArray.sort((a, b) => b.price - a.price)
+      this.headPrice = !this.headPrice
+    }
+    if(key==='Categories'){
+      key="categories"
+      this.headCategories ?
+      values = fakeArray.sort((a, b) => a.categories[0].localeCompare(b.categories[0])) : 
+      values = fakeArray.sort((a, b) => b.categories[0].localeCompare(a.categories[0])) 
+      this.headCategories = !this.headCategories
+    }
+    if(key==='Creation date'){
+      key="creationDate"
+      this.headDate ? 
+      values = fakeArray.sort((a, b) => parseInt(a.creationDate) - parseInt(b.creationDate)) :
+      values = fakeArray.sort((a, b) => parseInt(b.creationDate) - parseInt(a.creationDate))
+      this.headDate = !this.headDate
+    }
+    if(key===""){
+      this.products = this.oldProducts
+    }
+    key ? this.products = this.products.map((item,ind) => {
+      return {...item, [key]: values[ind][key]};
+   }):undefined;
   }
 }
