@@ -40,12 +40,12 @@ export class ProductsTableComponent implements OnInit {
     return formatDate(date,'yyyy-MM-dd HH:mm:ss', this.locale);
   }
 
-  onReload() {
+  onReload(): void{
    this.products = this.service.getData()
    this.totalRecords = this.products.length
   }
   
-  sorByDefault(){
+  sorByDefault(): void{
     this.products = this.service.getData().sort((a, b) => a.name.localeCompare(b.name))
     this.oldProducts = [...this.products]
   }
@@ -55,49 +55,53 @@ export class ProductsTableComponent implements OnInit {
     return separate
   }
 
-  sort(key){
+  sort(key): void{
     let fakeArray = [...this.products]
     let values;
-    if(key==='ID'){
-      key="id"
-      this.headId ? 
-      values = fakeArray.sort((a, b) => a.id - b.id) : 
-      values = fakeArray.sort((a, b) => b.id - a.id)
-      this.headId = !this.headId
-    }
-    if(key==='Pruduct name'){
-      key="name"
-      this.headName ? 
-      values = fakeArray.sort((a, b) => a.name.localeCompare(b.name)) :
-      values = fakeArray.sort((a, b) => b.name.localeCompare(a.name))
-      this.headName = !this.headName
-    }
-    if(key==='Price'){
-      key="price"
-      this.headPrice ? 
-      values = fakeArray.sort((a, b) => a.price - b.price) : 
-      values = fakeArray.sort((a, b) => b.price - a.price)
-      this.headPrice = !this.headPrice
-    }
-    if(key==='Categories'){
-      key="categories"
-      this.headCategories ?
-      values = fakeArray.sort((a, b) => a.categories[0].localeCompare(b.categories[0])) : 
-      values = fakeArray.sort((a, b) => b.categories[0].localeCompare(a.categories[0])) 
-      this.headCategories = !this.headCategories
-    }
-    if(key==='Creation date'){
-      key="creationDate"
-      this.headDate ? 
-      values = fakeArray.sort((a, b) => parseInt(a.creationDate) - parseInt(b.creationDate)) :
-      values = fakeArray.sort((a, b) => parseInt(b.creationDate) - parseInt(a.creationDate))
-      this.headDate = !this.headDate
-    }
-    if(key===""){
-      this.products = this.oldProducts
-    }
-    key ? this.products = this.products.map((item,ind) => {
-      return {...item, [key]: values[ind][key]};
-   }):undefined;
+    switch (key) {
+      case 'ID':
+        key="id"
+        this.headId ? 
+        values = fakeArray.sort((a, b) => a.id - b.id) : 
+        values = fakeArray.sort((a, b) => b.id - a.id)
+        this.headId = !this.headId
+          break;
+      case'Pruduct name':
+        key="name"
+        this.headName ? 
+        values = fakeArray.sort((a, b) => a.name.localeCompare(b.name)) :
+        values = fakeArray.sort((a, b) => b.name.localeCompare(a.name))
+        this.headName = !this.headName
+          break;
+      case 'Price':
+        key="price"
+        this.headPrice ? 
+        values = fakeArray.sort((a, b) => a.price - b.price) : 
+        values = fakeArray.sort((a, b) => b.price - a.price)
+        this.headPrice = !this.headPrice
+          break;
+      case 'Categories':
+        key="categories"
+        this.headCategories ?
+        values = fakeArray.sort((a, b) => a.categories[0].localeCompare(b.categories[0])) : 
+        values = fakeArray.sort((a, b) => b.categories[0].localeCompare(a.categories[0])) 
+        this.headCategories = !this.headCategories
+          break;
+      case 'Creation date':
+        key="creationDate"
+        this.headDate ? 
+        values = fakeArray.sort((a, b) => parseInt(a.creationDate) - parseInt(b.creationDate)) :
+        values = fakeArray.sort((a, b) => parseInt(b.creationDate) - parseInt(a.creationDate))
+        this.headDate = !this.headDate
+          break;
+      case '':
+        this.products = this.oldProducts
+          break;
+      default:
+          break;
+  }
+  key ? this.products = this.products.map((item,ind) => {
+    return {...item, [key]: values[ind][key]};
+  }):undefined;
   }
 }

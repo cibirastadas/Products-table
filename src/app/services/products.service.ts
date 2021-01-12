@@ -108,5 +108,6 @@ export class ProductsService {
     oldProduct.name = product.name
     oldProduct.categories = product.categories
     oldProduct.price = product.price
+    oldProduct.creationDate = product.creationDate
   }
 }
