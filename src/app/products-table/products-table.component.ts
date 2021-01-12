@@ -90,9 +90,18 @@ export class ProductsTableComponent implements OnInit {
       case 'Creation date':
         key="creationDate"
         this.headDate ? 
-        values = fakeArray.sort((a, b) => a.creationDate? -1 : b.creationDate? 1 : 0) :
-        values = fakeArray.sort((a, b) => b.creationDate? -1 : a.creationDate? 1 : 0) 
+        values = fakeArray.sort((a, b) => {
+          a.creationDate.split('-').reverse().join('')
+          b.creationDate.split('-').reverse().join('')
+          return a.creationDate.localeCompare(b.creationDate)
+        }) :
+        values = fakeArray.sort((a, b) => {
+          a.creationDate.split('-').reverse().join('')
+          b.creationDate.split('-').reverse().join('')
+          return b.creationDate.localeCompare(a.creationDate)
+        })
         this.headDate = !this.headDate
+        console.log(this.headDate)
           break;
       case '':
         this.products = this.oldProducts
@@ -103,5 +112,9 @@ export class ProductsTableComponent implements OnInit {
   key ? this.products = this.products.map((item,ind) => {
     return {...item, [key]: values[ind][key]};
   }):undefined;
+  }
+
+  dateToNum(d: any) {
+    d = d.split(" "); return Number(d[2]+d[1]+d[0]);
   }
 }
