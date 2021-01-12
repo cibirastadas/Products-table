@@ -16,6 +16,7 @@ export class ProductsEditComponent implements OnInit {
   id: Number;
   newProduct : Product;
   products: Product;
+  oldForm : Product;
   constructor(private router: Router, private activeRoute: ActivatedRoute,private fb: FormBuilder, private productService: ProductsService, private readonly changeDetectorRef: ChangeDetectorRef) { 
   }
 
@@ -31,7 +32,7 @@ export class ProductsEditComponent implements OnInit {
         Validators.required,
         Validators.min(1)
       ]],
-      currency : "EUR"
+      currency : ""
     })
     this.mode = this.router.url === "/add";
     this.heading = this.mode ? "Add Products" : "Edit Products"
@@ -44,10 +45,10 @@ export class ProductsEditComponent implements OnInit {
 
   onSubmit(): void{
     this.newProduct = this.productsForm.value
-    this.newProduct.creationDate = new Date().toString();
+    var eq = JSON.stringify(this.oldForm as Product) === JSON.stringify(this.productsForm.value as Product) 
+    eq ? undefined : this.newProduct.creationDate = new Date().toString();
 
     if(this.mode){
-
       this.newProduct.id = this.getRndInteger();
       this.productService.onAdd(this.newProduct)
     }else{
@@ -74,8 +75,11 @@ export class ProductsEditComponent implements OnInit {
       name : this.products.name,
       categories : this.products.categories,
       price : this.products.price,
+      currency : this.products.currency,
+      creationDate : this.products.creationDate
     })
     this.categories.removeAt(this.categories.length -1)
+    this.oldForm = this.productsForm.value
   }
 
   getRndInteger() {
