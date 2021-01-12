@@ -101,7 +101,6 @@ export class ProductsTableComponent implements OnInit {
           return b.creationDate.localeCompare(a.creationDate)
         })
         this.headDate = !this.headDate
-        console.log(this.headDate)
           break;
       case '':
         this.products = this.oldProducts
