@@ -11,6 +11,7 @@ Angular application which shows product list
 * Correctly formatted dates
 * Correctly formatted currency
 * Validation
+* Responsive design
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
 
