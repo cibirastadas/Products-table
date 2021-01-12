@@ -90,8 +90,8 @@ export class ProductsTableComponent implements OnInit {
       case 'Creation date':
         key="creationDate"
         this.headDate ? 
-        values = fakeArray.sort((a, b) => parseInt(a.creationDate) - parseInt(b.creationDate)) :
-        values = fakeArray.sort((a, b) => parseInt(b.creationDate) - parseInt(a.creationDate))
+        values = fakeArray.sort((a, b) => a.creationDate? -1 : b.creationDate? 1 : 0) :
+        values = fakeArray.sort((a, b) => b.creationDate? -1 : a.creationDate? 1 : 0) 
         this.headDate = !this.headDate
           break;
       case '':
