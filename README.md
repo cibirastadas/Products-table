@@ -10,6 +10,7 @@ Angular application which shows product list
 * User Angular Reactive forms
 * Correctly formatted dates
 * Correctly formatted currency
+* Validation
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
 
