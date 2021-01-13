@@ -32,7 +32,7 @@ export class ProductsEditComponent implements OnInit {
         Validators.required,
         Validators.min(1)
       ]],
-      currency : ""
+      currency : "EUR"
     })
     this.mode = this.router.url === "/add";
     this.heading = this.mode ? "Add Products" : "Edit Products"
