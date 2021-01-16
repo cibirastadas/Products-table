@@ -33,7 +33,7 @@
                 <td class="align-middle">{{product.id}}</td>
                 <td class="align-middle">{{product.name}}</td>
                 <td class="align-middle">{{onLoopArray(product.categories)}}</td>
-                <td class="align-middle">{{product.price | currency:product.currency}}</td>
+                <td class="align-middle">{{product.price | currency: product.currency }}</td>
                 <td class="align-middle">{{dataFormat(product.creationDate)}}</td>
                 <td class="align-middle buttons">
                   <a [routerLink]="['/edit', product.id]" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>

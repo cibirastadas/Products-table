@@ -1,8 +1,8 @@
-export class Product{
-    public id: number;
-    public name: string;
-    public categories: Array<string>;
-    public creationDate: string;
-    public price: number;
-    public currency: string;
+export interface Product{
+    id: number;
+    name: string;
+    categories: Array<string>;
+    creationDate: string;
+    price: number;
+    currency: string;
 }

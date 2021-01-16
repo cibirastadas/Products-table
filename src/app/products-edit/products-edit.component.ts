@@ -12,7 +12,7 @@ import { ChangeDetectorRef } from '@angular/core'
 export class ProductsEditComponent implements OnInit {
   productsForm : FormGroup;
   heading: string;
-  mode: Boolean;
+  isChangeAction: Boolean;
   id: Number;
   newProduct : Product;
   products: Product;
@@ -34,10 +34,10 @@ export class ProductsEditComponent implements OnInit {
       ]],
       currency : "EUR"
     })
-    this.mode = this.router.url === "/add";
-    this.heading = this.mode ? "Add Products" : "Edit Products"
+    this.isChangeAction = this.router.url === "/add";
+    this.heading = this.isChangeAction ? "Add Products" : "Edit Products"
     this.id =+ this.activeRoute.snapshot.paramMap.get('id');
-    if(!this.mode){
+    if(!this.isChangeAction){
         this.products = this.productService.getOneProduct(this.id)
         this.patchValues();
     }
@@ -48,7 +48,7 @@ export class ProductsEditComponent implements OnInit {
     var eq = JSON.stringify(this.oldForm as Product) === JSON.stringify(this.productsForm.value as Product) 
     eq ? undefined : this.newProduct.creationDate = new Date().toString();
 
-    if(this.mode){
+    if(this.isChangeAction){
       this.newProduct.id = this.getRndInteger();
       this.productService.onAdd(this.newProduct)
     }else{

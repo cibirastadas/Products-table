@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core'; 
+import { NgModule} from '@angular/core'; 
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -25,7 +25,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgxPaginationModule,
     Ng2SearchPipeModule,
   ],
-  providers: [ProductsService],
+  providers:[
+  ProductsService
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

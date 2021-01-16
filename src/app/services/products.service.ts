@@ -85,7 +85,7 @@ export class ProductsService {
     return ["ID", "Pruduct name", "Categories", "Price", "Creation date",""]
   }
 
-  getData(){
+  getProducts(){
    return this.products
   }
   
